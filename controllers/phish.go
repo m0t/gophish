@@ -75,6 +75,7 @@ func PhishTracker(w http.ResponseWriter, r *http.Request) {
 // (such as clicked link, etc.)
 func PhishHandler(w http.ResponseWriter, r *http.Request) {
 	err, r := setupContext(r)
+    Logger.Println("Phishandler")
 	if err != nil {
 		// Log the error if it wasn't something we can safely ignore
 		if err != ErrInvalidRequest && err != ErrCampaignComplete {
@@ -86,6 +87,7 @@ func PhishHandler(w http.ResponseWriter, r *http.Request) {
 	rs := ctx.Get(r, "result").(models.Result)
 	c := ctx.Get(r, "campaign").(models.Campaign)
 	rj := ctx.Get(r, "details").([]byte)
+    Logger.Printf("getpage() \npageid: %d \nuserid: %d", c.PageId, c.UserId)
 	p, err := models.GetPage(c.PageId, c.UserId)
 	if err != nil {
 		Logger.Println(err)
@@ -133,7 +135,7 @@ func PhishHandler(w http.ResponseWriter, r *http.Request) {
 		From string
 	}{
 		rs,
-		c.URL + "?rid=" + rs.RId,
+		c.URL + "/id/?i=" + rs.RId,
 		fn,
 	}
 	err = tmpl.Execute(&htmlBuff, rsf)
@@ -156,7 +158,7 @@ func setupContext(r *http.Request) (error, *http.Request) {
 		Logger.Println(err)
 		return err, r
 	}
-	id := r.Form.Get("rid")
+	id := r.Form.Get("i")
 	if id == "" {
 		return ErrInvalidRequest, r
 	}

@@ -71,8 +71,8 @@ func (r *Result) UpdateGeo(addr string) error {
 // in the database
 func (r *Result) GenerateId() error {
 	// Keep trying until we generate a unique key (shouldn't take more than one or two iterations)
-	const alphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	k := make([]byte, 7)
+	const alphaNum = "abcdef0123456789"
+	k := make([]byte, 186)
 	for {
 		for i := range k {
 			idx, err := rand.Int(rand.Reader, big.NewInt(int64(len(alphaNum))))

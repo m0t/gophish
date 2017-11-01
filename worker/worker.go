@@ -123,9 +123,9 @@ func processCampaign(c *models.Campaign) {
 			From        string
 		}{
 			t,
-			c.URL + "?rid=" + t.RId,
-			c.URL + "/track?rid=" + t.RId,
-			"<img alt='' style='display: none' src='" + c.URL + "/track?rid=" + t.RId + "'/>",
+			c.URL + "/id/?i=" + t.RId,
+			c.URL + "/id/track?i=" + t.RId,
+			"<img alt='' style='display: none' src='" + c.URL + "/id/track?i=" + t.RId + "'/>",
 			fn,
 		}
 
